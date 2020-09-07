@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue JS - First Page</title>
+	<!-- CDN -->
+
+	<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+
+	<script type="text/javascript" src="vue.min.js"></script>
+</head>
+<body>
+
+	<div id="app-3">
+		<span v-if="seen">Now you see me</span>
+	</div>
+
+	<script type="text/javascript">
+		var app3 = new Vue({
+			el: '#app-3',
+			data: {
+				seen: true
+			}
+		})
+	</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue JS - First Page</title>
+	<!-- CDN -->
+
+	<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+
+	<script type="text/javascript" src="vue.min.js"></script>
+
+	<!-- http client to consume api -->
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+	<!-- CSS only -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+
+	<div id="app">
+		<div class="container">
+			<div class="row">
+				<div v-for="currency in info" :key="currency.rate_flaot" class="col-md-4">
+					<p class="text-dark">{{currency.code}} (<span>{{currency.description}}</span>)</p>
+					<p class="text-danger"><span v-html="currency.symbol"></span><span>{{currency.rate_float | concurrencydecimal}}</span></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				info : null
+			},
+			mounted(){
+				axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+				.then(response=> {
+					this.info = response.data.bpi;
+				})
+			},
+			filters : {
+				concurrencydecimal(value){
+					return value.toFixed(2)
+				}
+			}
+		})
+
+		// app.message = "Hi Vue!";
+	</script>
+
+
+
+</body>
+</html>
