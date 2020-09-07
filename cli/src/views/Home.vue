@@ -6,7 +6,7 @@
 
 		<div class="container">
 			<div class="row animated animatedFadeInUp fadeInUp">
-				<div class="col-md-3" v-for="(item,index) in items" :key="index">
+				<div class="shadow col-md-3 mb-5 mt-2 hvr-shrink hvr-underline-from-center" v-for="(item,index) in items" :key="index">
 					<ItemCard :item="item"></ItemCard>
 				</div>
 			</div>

@@ -9,7 +9,7 @@
         <table class='table table bordered'>
           <tbody>
             <tr>
-              <td>Product Name:</td>
+              <td width="150px;">Product Name:</td>
               <td>{{item.item_name}}</td>
             </tr>
             <tr>
@@ -26,7 +26,7 @@
             </tr>
           </tbody>
         </table>
-        
+        <!-- <hr> -->
         <p class='text-center'><a class='btn btn-primary px-2 add_to_cart hvr-icon-buzz-out' style='background-color: #255d6c;' href='#' role='button'>Add to Cart  <i class='fa fa-shopping-cart hvr-icon' aria-hidden='true'></i></a></p>
       </div>
 
