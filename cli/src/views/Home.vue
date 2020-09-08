@@ -4,9 +4,9 @@
 			
 		</div>
 
-		<div class="container">
-			<div class="row animated animatedFadeInUp fadeInUp">
-				<div class="shadow col-md-3 mb-5 mt-2 hvr-shrink hvr-underline-from-center" v-for="(item,index) in items" :key="index">
+		<div class="container-fluid">
+			<div class="row animated animatedFadeInUp fadeInUp px-5">
+				<div class="col-md-3 mb-5 mt-2"  style="padding: 0 12px; line-height: 10px;" v-for="(item,index) in items" :key="index">
 					<ItemCard :item="item"></ItemCard>
 				</div>
 			</div>
@@ -26,7 +26,6 @@
     data(){
       return{
         items: [],
-        myItems: []
       }
     },
     mounted(){
@@ -39,7 +38,7 @@
               this.items = res.data.items
               for (var i = 0; i < this.items.length; i++) {
               	//../assets/img/1.jpg
-              	this.items[i].item_photo =  (i+1) + ".jpg";
+              	this.items[i].item_photo = (i+1) + ".jpg";
               }
             })
             .catch(err => {
@@ -51,5 +50,7 @@
 </script>
 
 <style type="text/css">
-  
+  .checked {
+  color: orange;
+}
 </style>

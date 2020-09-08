@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import Testing from './views/Testing.vue'
 import Home from './views/Home.vue'
 import Detail from './views/Detail.vue'
-import Dynamic from './views/Dynamic.vue'
+import ShoppingCart from './views/ShoppingCart.vue'
 
 
 Vue.use(VueRouter)
@@ -29,16 +29,10 @@ const router = new VueRouter({
       component: Detail
     },
     {
-      path: '/dynamic_route',
-      name: 'dynamic',
-      component: Dynamic
-    },
-    {
-      path: '/dynamic_route/:id',
-      name: 'dynamic',
-      props: true,
-      component: Dynamic
-    },
+      path: '/cart',
+      name: 'cart',
+      component: ShoppingCart
+    }
   ],
   mode: 'history' // abstract
 })

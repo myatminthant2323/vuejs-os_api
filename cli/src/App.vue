@@ -1,111 +1,31 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <Testing msg="This is inheriented data"></Testing>
-      <Exercise></Exercise> -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <img alt="Vue logo" src="./assets/logo.png" width="30" height="30">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <router-link class="nav-link" to="/testing">Testing <span class="sr-only">(current)</span></router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/exercise">Exercise</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/dynamic_route">Dynamic Route</router-link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav> -->
-
-
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #255d6c;">
-      <router-link class="navbar-brand hvr-float" to="/">My Shoe Shop</router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <router-link class="nav-link hvr-float" to="/">Home <span class="sr-only">(current)</span></router-link>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Brands</a>
-          </li>
-          <li class="nav-item active hvr-float">
-            <router-link class="nav-link" to="/register">Register</router-link>
-          </li>
-          <li class="nav-item active hvr-float">
-            <router-link class="nav-link" to="/login">Login</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link hvr-icon-buzz-out" to="/cart"><i class="fa fa-shopping-cart hvr-icon" aria-hidden="true"></i><!-- <span class="badge badge-light product_count">0</span> -->
-            </router-link>
-          </li>
-        </ul>
-        <form action="#" class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search_name">
-          <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
-        </form>
-      </div>
-    </nav>
-
-
-
-
-
+    <NavBar></NavBar>
   <main role="main">
     <router-view></router-view>
   </main>
 
-
-
-
-
-
-
-    <!-- <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <router-view></router-view>
-        </div>
-      </div>  
-    </div> -->
   </div>
 </template>
 
 <script>
-
-  //import './assets/vendor/jquery/jquery.slim.min.js';
-  
-// import HelloWorld from './components/HelloWorld.vue'
-// import Testing from './components/Testing.vue'
-// import Exercise from './components/Exercise.vue'
+  import NavBar from './components/NavBar.vue'
 
 export default {
+  components:{
+    NavBar
+  },
   name: 'App',
   mounted(){
     this.$router.replace('/')
+  },
+  computed:{
+    cartCount(){
+      this.$store.dispatch('getData')
+      return this.$store.state.cart.length
+    }
   }
-  // components: {
-  //   // HelloWorld
-  //   Testing,
-  //   Exercise
-
-  // }
 }
 </script>
 
