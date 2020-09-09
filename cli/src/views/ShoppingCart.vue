@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid animated animatedFadeInUp fadeInUp cart_container" v-if="cartItemsCount !== 0">
+  <div class="container-fluid animated animatedFadeInUp fadeInUp cart_container" v-if="cartItemsCount !== 0 && !orderDone">
 
     <h2 class="pt-5 pb-2 ml-5">Shopping Cart <span style="color:#ccbd0f;">({{ cartItemsCount }} items)</span></h2>
     <div class="row mx-4">
@@ -7,7 +7,7 @@
         <div class="row px-5 pt-4 my-1 mr-1 shadow" v-for="(item,index) in cart" :key="index">
           <div class="col-md-4">
             <router-link :to="{ name: 'item', params: { id: item.id }}">
-              <img :src="require(`../assets/img/${item.photo}`)" class='img-fluid'>
+              <img :src="item.photo" class='img-fluid'>
             </router-link>
           </div>
           <div class="col-md-8">
@@ -28,9 +28,17 @@
                 <tr>
                   <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">{{++index}}</td>
                   <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">${{formatPrice(item.price)}}</td>
-                  <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;"><button class='btn btn-danger btn-sm mx-3' @click='minus(item.id)'>-</button>{{item.qty}}<button class='btn btn-warning btn-sm  btn_plus mx-3 text-white' @click='plus(item.id)'>+</button></td>
+                  <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">
+                    <button class='btn btn-danger btn-sm mx-3' @click='minus(item.id)'>
+                      -
+                    </button>
+                    {{item.qty}}
+                    <button class='btn btn-warning btn-sm  btn_plus mx-3 text-white' @click='plus(item.id)'>
+                      +
+                    </button>
+                  </td>
                   <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">${{ formatPrice(item.price * item.qty) }}</td>
-                  <td style="border-bottom: 0; border-top: 0; padding-left: 10px; padding-right: 0px;"><a href="#" style="color:#000;" class="remove hvr-icon-pulse-grow" data-id=${id} @click="removeFromCart(item.id)"><i class="fas fa-times hvr-icon"></i></a></td>
+                  <td style="border-bottom: 0; border-top: 0; padding-left: 10px; padding-right: 0px;"><a href="#" style="color:#000;" class="remove hvr-icon-pulse-grow" @click="removeFromCart(item.id)"><i class="fas fa-times hvr-icon"></i></a></td>
                 </tr>
               </tbody>
             </table>
@@ -78,12 +86,15 @@
             </div>
             <div class="row mt-2 mb-3">
               <div class="col-12">
-                <a href="#" class="btn btn-primary btn-block checkout" style="background-color: #255d6c;">
+                <button class="btn btn-primary btn-block" style="background-color: #255d6c;" @click="order()">
                   Checkout
-                </a>                
+                </button>                
               </div>
             </div>
           </div>
+        </div>
+        <div class="row ml-1 my-2">
+          <textarea class="md-textarea form-control shadow" style="height: 100px" placeholder="Enter Message"></textarea>
         </div>
         
       </div>
@@ -91,18 +102,43 @@
     <hr>
 
   </div>
-  <div v-else>
-    <h3 class="container-fluid animated animatedFadeInUp fadeInUp cart_container my-5" style="color:#ccbd0f;">Your Cart is Empty</h3>
+  <div v-else-if="cartItemsCount == 0">
+    <h2 class="container-fluid animated animatedFadeInUp fadeInUp cart_container my-5 text-center" style="color:#ccbd0f;">Your Cart is Empty</h2>
+  </div>
+  <div v-else-if="orderDone">
+    <h2 class="container-fluid animated animatedFadeInUp fadeInUp cart_container my-5 text-center" style="color:#ccbd0f;">Ordered Sucessfully</h2>
   </div>
 </template>
 
 <script type="text/javascript">
-  // import ItemService from '@/services/ItemService.js'
+  import ItemService from '@/services/ItemService.js'
 
   export default{
     data(){
       return{
-        totalAmount: 0
+        totalAmount: 0,
+        notes: '',
+        orderDone: false,
+        selectedShippingOption: '',
+        shippingOptionsArray: [
+        {
+          text: 'One day',
+          rate: 20,
+        },
+        {
+          text: 'Two days',
+          rate: 15,
+        },
+        {
+          text: 'Three to five days',
+          rate: 10,
+        },
+        {
+          text: 'One week or more',
+          rate: 5,
+        },
+        ],
+        salesTax: 0.05,
       }
     },
     computed:{
@@ -115,7 +151,29 @@
       },
       itemsTotal() {
         return this.cart.reduce((total, item) => total + (item.price * item.qty), 0);
-      }
+      },
+      subtotal() {
+        if (this.selectedShippingOption) {
+          return Number(this.itemsSubtotal) + Number(this.selectedShippingOption);
+        }
+        return '---';
+      },
+      salesTaxPercentage() {
+        return `${this.salesTax * 100}%`;
+      },
+      salesTaxApplied() {
+        if (this.selectedShippingOption) {
+          return (this.subtotal * this.salesTax).toFixed(2);
+        }
+        return '---';
+      },
+      total() {
+        if (this.selectedShippingOption) {
+          return Number(this.subtotal)
+                 + Number(this.salesTaxApplied);
+        }
+        return '---';
+      },
     },
     methods: {
       removeFromCart(itemId) {
@@ -143,10 +201,25 @@
       },
       minus(itemId) {
         this.$store.dispatch('minus', itemId)
-      }
+      },
+      order(){
+        console.log("Hi");
+        let data = {shop_data: JSON.stringify(this.$store.state.cart),
+          notes: this.notes,total: this.totalAmount};
+          ItemService.createOrder(data)
+          .then(response => {
+            console.log(response)
+            localStorage.clear();
+            this.orderDone = true;
+            this.$store.dispatch('getData')
+          })
+          .catch(error => {
+            console.log('There was an error:',error.response)
+          })
+        }
 
+      }
     }
-  }
 </script>
 
 <style type="text/css">

@@ -20,5 +20,15 @@ export default{
   // detail (Detail)
   getItem(id){
     return apiClient.get('/items/'+id)
+  },
+
+  getOrders(){
+    return apiClient.get('/orders')
+  },
+
+  // Insert in Order Table
+  
+  createOrder(data){
+    return apiClient.post('/orders',data)
   }
 }

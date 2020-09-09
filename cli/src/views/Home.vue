@@ -36,10 +36,10 @@
         ItemService.getItems()
             .then(res => {
               this.items = res.data.items
-              for (var i = 0; i < this.items.length; i++) {
-              	//../assets/img/1.jpg
-              	this.items[i].item_photo = (i+1) + ".jpg";
-              }
+              // for (var i = 0; i < this.items.length; i++) {
+              // 	//../assets/img/1.jpg
+              // 	this.items[i].item_photo = (i+1) + ".jpg";
+              // }
             })
             .catch(err => {
               console.log('There was an error:',err.response)

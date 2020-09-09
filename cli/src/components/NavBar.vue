@@ -21,6 +21,9 @@
           <li class="nav-item active hvr-float">
             <router-link class="nav-link" to="/login">Login</router-link>
           </li>
+          <li class="nav-item active hvr-float">
+            <router-link class="nav-link" to="/orders">Orders</router-link>
+          </li>
           <li class="nav-item">
             <router-link class="nav-link hvr-icon-buzz-out" :to="{name:'cart'}"><i class="fa fa-shopping-cart hvr-icon" aria-hidden="true"></i>    <span v-if="cartCount > 0" class="badge badge-light product_count">{{ cartCount }}</span>
             </router-link>

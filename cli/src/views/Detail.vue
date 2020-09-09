@@ -3,7 +3,7 @@
     <!-- <h1 class="text-center mt-5 mb-4">Product Detail</h1> -->
     <div class="row">
       <div class='col-md-6 mt-2 animated in-left'>
-        <p><img :src='require(`../assets/img/${item.item_photo}`)' class='img-fluid'></p>
+        <p><img :src='item.item_photo' class='img-fluid'></p>
       </div>
       <div class='col-md-5 offset-1 pt-3 mt-4 animated in-right'>
         <h2>{{item.item_name}}</h2>
@@ -54,7 +54,7 @@
     },
     computed: {
       discount_price(){
-        return this.item.item_price - (this.item.item_price*(this.item.item_discount/100))
+        return this.currency(this.item.item_price - (this.item.item_price*(this.item.item_discount/100)));
       },
       
     },
@@ -67,7 +67,7 @@
         ItemService.getItem(id)
             .then(res => {
               this.item = res.data.item
-              this.item.item_photo =  this.item.item_id + ".jpg";
+              // this.item.item_photo =  this.item.item_id + ".jpg";
             })
             .catch(err => {
               console.log('There was an error:',err.response)
