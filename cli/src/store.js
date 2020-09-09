@@ -18,9 +18,11 @@ const store = new Vuex.Store({
     }, 
     removeFromCart (state, payload) {
       let indexToDelete = state.cart.find(item => item.id == payload)
+      // console.log(state.cart.indexOf(indexToDelete));
       var ans = confirm('Are You Sure to delete?');
         if(ans){
-          state.cart.splice(indexToDelete, 1)
+          // console.log(indexToDelete);
+          state.cart.splice(state.cart.indexOf(indexToDelete), 1)
         }
     },
     saveCart(state) {
@@ -39,11 +41,12 @@ const store = new Vuex.Store({
       item.qty++;
     },
     minus (state, payload) {
+      console.log(payload);
       let item = state.cart.find(item => item.id == payload)
       if (item.qty == 1) {
         var ans = confirm('Are You Sure to delete?');
         if(ans){
-          state.cart.splice(item, 1)
+          state.cart.splice(state.cart.indexOf(item), 1)
         }
       }else{
         item.qty--;

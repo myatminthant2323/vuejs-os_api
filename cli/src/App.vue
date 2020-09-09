@@ -20,6 +20,9 @@ export default {
   mounted(){
     this.$router.replace('/')
   },
+  methods:{
+    
+  },
   computed:{
     cartCount(){
       this.$store.dispatch('getData')

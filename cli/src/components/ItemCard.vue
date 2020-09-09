@@ -4,7 +4,7 @@
     <router-link :to="{ name: 'item', params: { id: item.item_id }}" style="text-decoration: none; color:#000;">
       <h3 class="card-title mt-2">{{item.item_name}} <span class="badge badge-danger float-right mt-2" style="font-size: 12px;">{{item.item_discount}}% OFF</span></h3>
       <!-- <p>{{item.item_codeno}}</p> -->
-      <p class="card-text"><span style="color: orange; letter-spacing: 0.4px;">${{discount_price}}</span> <span class="ml-2" style="text-decoration: line-through;">${{item.item_price}}</span></p>
+      <p class="card-text"><span style="color: orange; letter-spacing: 0.4px;">${{discount_price}}</span> <span class="ml-2" style="text-decoration: line-through;">${{ formatPrice(item.item_price) }}</span></p>
 
       <p><span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
@@ -31,17 +31,31 @@
     methods: {
       addToCart() {
         // alert("Clicked")
-        let myitem = {id:this.item.item_id,name:this.item.item_name,photo:this.item.item_photo,price:this.discount_price.toFixed(),qty:1};
+        let myitem = {id:this.item.item_id,name:this.item.item_name,photo:this.item.item_photo,price:this.currency(this.discount_price),qty:1};
         // console.log(myitem);
         this.$store.dispatch('addToCart', myitem)
+      },
+      formatPrice(price){
+        price = price.toString();
+        var objRegex  = new RegExp('(-?[0-9]+)([0-9]{3})');                            
+        while(objRegex.test(price))           
+        {              
+          price = price.replace(objRegex, '$1,$2');           
+        }           
+
+        return price
+      },
+      currency(price){
+        return Math.ceil(price);
       }
     },
+    
     mounted(){
       
     },
     computed: {
       discount_price(){
-        return (this.item.item_price - (this.item.item_price*(this.item.item_discount/100)).toFixed());
+        return this.formatPrice(this.currency(this.item.item_price - (this.item.item_price*(this.item.item_discount/100))));
       }
     },
   }

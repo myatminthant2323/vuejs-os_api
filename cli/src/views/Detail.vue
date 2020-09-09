@@ -18,7 +18,7 @@
           <span class="mr-2"> <b-icon icon="tag-fill" variant="dark"></b-icon> {{item.brand.brand_name}}</span>
           <span> <b-icon icon="tag-fill" variant="dark"></b-icon> {{item.subcategory.subcategory_name}}</span>
         </p>
-        <p style="letter-spacing: 0.1px;"><span class="" style="font-size: 22px; color: red">${{discount_price.toFixed()}} ({{item.item_discount}}% OFF) </span>  <span class="ml-2" style="text-decoration: line-through;">${{item.item_price}}</span> <span class="badge badge-danger mt-2 mx-2 py-1" style="font-size: 12px;">Save  ${{item.item_price - discount_price.toFixed()}}</span></p>
+        <p><span class="" style="font-size: 20px; color: red">${{formatPrice(discount_price | currency)}} ({{item.item_discount}}% OFF) </span>  <span class="ml-2" style="text-decoration: line-through;">${{formatPrice(item.item_price)}}</span> <span class="badge badge-danger mt-2 mx-2 py-1" style="font-size: 12px;">Save  ${{formatPrice(item.item_price - currency(discount_price))}}</span></p>
         <h4 style="font-size: 18px;">COLOR: TERRACOTTA</h4>
         <div class="foo blue"></div>
         <div class="foo purple"></div>
@@ -55,7 +55,8 @@
     computed: {
       discount_price(){
         return this.item.item_price - (this.item.item_price*(this.item.item_discount/100))
-      }
+      },
+      
     },
     mounted(){
       this.getDetail();
@@ -73,9 +74,25 @@
             })
       },
       addToCart() {
-        let item = {id:this.item.item_id,name:this.item.item_name,photo:this.item.item_photo,price:this.discount_price.toFixed(),qty:this.qty};
+        let item = {id:this.item.item_id,name:this.item.item_name,photo:this.item.item_photo,price:this.currency(this.discount_price),qty:this.qty};
         this.$store.dispatch('addToCart', item)
+      },
+      formatPrice(price){
+        price = price.toString();
+        var objRegex  = new RegExp('(-?[0-9]+)([0-9]{3})');                            
+        while(objRegex.test(price))           
+        {              
+          price = price.replace(objRegex, '$1,$2');           
+        }           
+
+        return price
+      },
+      currency(price){
+        return Math.ceil(price);
       }
+    },
+    filters: {
+      
     }
   }
 </script>

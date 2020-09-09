@@ -27,9 +27,9 @@
               <tbody>
                 <tr>
                   <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">{{++index}}</td>
-                  <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">${{item.price}}</td>
+                  <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">${{formatPrice(item.price)}}</td>
                   <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;"><button class='btn btn-danger btn-sm mx-3' @click='minus(item.id)'>-</button>{{item.qty}}<button class='btn btn-warning btn-sm  btn_plus mx-3 text-white' @click='plus(item.id)'>+</button></td>
-                  <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">${{ item.price * item.qty }}</td>
+                  <td style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">${{ formatPrice(item.price * item.qty) }}</td>
                   <td style="border-bottom: 0; border-top: 0; padding-left: 10px; padding-right: 0px;"><a href="#" style="color:#000;" class="remove hvr-icon-pulse-grow" data-id=${id} @click="removeFromCart(item.id)"><i class="fas fa-times hvr-icon"></i></a></td>
                 </tr>
               </tbody>
@@ -48,7 +48,7 @@
                 <p>Item Total</p>
               </div>
               <div class="col-4">
-                <p class="text-right shipping-cost">${{ itemsTotal }}</p>
+                <p class="text-right shipping-cost">${{ formatPrice(itemsTotal) }}</p>
               </div>
             </div>
             <div class="row font-bold">
@@ -73,7 +73,7 @@
                 <p>Estimated Total</p>
               </div>
               <div class="col-4">
-                <p class="text-right total">${{ itemsTotal }}</p>
+                <p class="text-right total">${{ formatPrice(itemsTotal) }}</p>
               </div>
             </div>
             <div class="row mt-2 mb-3">
@@ -124,6 +124,19 @@
       addToCart() {
         let item = {id:this.item.item_id,name:this.item.item_name,photo:this.item.item_photo,price:this.item.item_price,qty:this.qty};
         this.$store.dispatch('addToCart', item)
+      },
+      formatPrice(price){
+        price = price.toString();
+        var objRegex  = new RegExp('(-?[0-9]+)([0-9]{3})');                            
+        while(objRegex.test(price))           
+        {              
+          price = price.replace(objRegex, '$1,$2');           
+        }           
+
+        return price
+      },
+      currency(price){
+        return Math.ceil(price);
       },
       plus(itemId) {
         this.$store.dispatch('plus', itemId)
