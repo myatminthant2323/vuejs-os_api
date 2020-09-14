@@ -2,7 +2,7 @@
   <div id="app">
 
     <NavBar></NavBar>
-  <main role="main">
+  <main role="main" style="padding-top: 3rem;">
     <router-view></router-view>
   </main>
 
@@ -18,7 +18,7 @@ export default {
   },
   name: 'App',
   mounted(){
-    this.$router.replace('/')
+    // this.$router.replace('/')
   },
   methods:{
     
@@ -34,12 +34,16 @@ export default {
 
 <style>
 
-  @import './assets/dist/css/bootstrap.css';
-  @import './assets/hover-master/css/hover.css';
-  @import './assets/vendor/fontawesome-free/css/all.min.css';
-  @import './assets/css/jumbotron.css';
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
 
 
+/*.dropdown {
+  &:not(.disable):hover {
+    display: none;
+  }   
+}*/
 
 /*#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

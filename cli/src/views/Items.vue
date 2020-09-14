@@ -1,12 +1,8 @@
 <template>
 	<div>
-		<div class="jumbotron jumbotron-fluid animated in-left" style="padding-bottom: 500px;">
-			
-		</div>
-
-		<div class="container-fluid">
-			<div class="row animated animatedFadeInUp fadeInUp px-5">
-				<div class="col-md-3 mb-3 mt-1"  style="padding: 0 12px; line-height: 10px;" v-for="(item,index) in items" :key="index">
+		<div class="container-fluid mt-5">
+			<div class="row animated in-left px-5">
+				<div class="col-md-3 mb-3 mt-2"  style="padding: 0 12px; line-height: 10px;" v-for="(item,index) in items" :key="index">
 					<ItemCard :item="item"></ItemCard>
 				</div>
 			</div>
@@ -33,7 +29,6 @@
     },
     methods:{
       getItems(){
-        console.log("Home Get Items");
         ItemService.getItems()
             .then(res => {
               this.items = res.data.items

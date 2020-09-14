@@ -3,9 +3,13 @@ import VueRouter from 'vue-router'
 
 import Testing from './views/Testing.vue'
 import Home from './views/Home.vue'
+import Items from './views/Items.vue'
 import Detail from './views/Detail.vue'
 import ShoppingCart from './views/ShoppingCart.vue'
 import Orders from './views/Orders.vue'
+import OrderDetail from './views/OrderDetail.vue'
+import Register from './views/Register.vue'
+import Login from './views/Login.vue'
 
 
 Vue.use(VueRouter)
@@ -24,6 +28,11 @@ const router = new VueRouter({
       component: Home
     },
     {
+      path: '/items',
+      name: 'items',
+      component: Items
+    },
+    {
       path: '/item/:id',
       name: 'item',
       props: true,
@@ -37,8 +46,29 @@ const router = new VueRouter({
     {
       path: '/orders',
       name: 'orders',
-      component: Orders
-    }
+      component: Orders,
+      meta:{
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Register
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/order/:id',
+      name: 'order-show',
+      component: OrderDetail,
+      meta:{
+        requiresAuth: true
+      }
+    },
   ],
   mode: 'history' // abstract
 })

@@ -1,26 +1,29 @@
 <template>
   <div class="container-fluid animated animatedFadeInUp fadeInUp cart_container" v-if="cartItemsCount !== 0 && !orderDone">
 
-    <h2 class="pt-5 pb-2 ml-5">Shopping Cart <span style="color:#ccbd0f;">({{ cartItemsCount }} items)</span></h2>
+    <h2 class="pb-2 mt-5 ml-5 d-inline-block">Shopping Cart <span style="color:#ccbd0f;">({{ cartItemsCount }} items)</span></h2>
+    <span>
+      <router-link :to="{name : 'items'}" class="mr-5 hvr-icon-buzz-out" style="color:#000; float: right; margin-top: 60px;">Continue Shopping <i class=" pl-1 fa fa-chevron-circle-right hvr-icon"></i></router-link>
+    </span>
     <div class="row mx-4">
-      <div class="col-md-8 cart_item">
-        <div class="row px-5 pt-4 my-1 mr-1 shadow" v-for="(item,index) in cart" :key="index">
-          <div class="col-md-4">
+      <div class="col-sm-8 cart_item">
+        <div class="row px-5 pt-4 my-1 mr-1 ml-1 shadow" v-for="(item,index) in cart" :key="index">
+          <div class="col-sm-4">
             <router-link :to="{ name: 'item', params: { id: item.id }}">
               <img :src="item.photo" class='img-fluid'>
             </router-link>
           </div>
-          <div class="col-md-8">
+          <div class="col-sm-8">
             <router-link :to="{ name: 'item', params: { id: item.id }}" style="color:#000;">
               <h3 class="mt-3">{{item.name}}</h3>
             </router-link>
-            <table class="table borderless">
+            <table class="table borderless" style="overflow-x:auto;">
               <thead>
                 <tr>
                   <th style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;" width="140px">Item Number</th>
-                  <th style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 30px;" width="80px">Price</th>
+                  <th style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;" width="80px">Price</th>
                   <th style="border-bottom: 0; border-top: 0; padding-left: 25px; padding-right: 0px;">Quantity</th>
-                  <th style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">SubTotal</th>
+                  <th style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;">Total</th>
                   <th style="border-bottom: 0; border-top: 0; padding-left: 0px; padding-right: 0px;"></th>
                 </tr>
               </thead>
@@ -47,13 +50,13 @@
         </div>
       </div>
       <div class="col-md-4 order_summery">
-        <div class="row ml-1">
+        <div class="row ml-1 mr-1">
           <div class="col-md-12 my-1 shadow">
             <h3 class="mb-2 mt-3">ORDER SUMMERY</h3>
             <hr>
             <div class="row font-bold">
               <div class="col-8 total-label">
-                <p>Item Total</p>
+                <p>Subtotal</p>
               </div>
               <div class="col-4">
                 <p class="text-right shipping-cost">${{ formatPrice(itemsTotal) }}</p>
@@ -86,27 +89,48 @@
             </div>
             <div class="row mt-2 mb-3">
               <div class="col-12">
-                <button class="btn btn-primary btn-block" style="background-color: #255d6c;" @click="order()">
+                <button class="btn btn-block" style="background-color: #255d6c; color: white;" @click="order()">
                   Checkout
                 </button>                
               </div>
             </div>
           </div>
         </div>
-        <div class="row ml-1 my-2">
-          <textarea class="md-textarea form-control shadow" style="height: 100px" placeholder="Enter Message"></textarea>
+        <div class="row ml-1 my-2 mr-1 shadow">
+          <p class="pt-3 pl-3">
+            <span style="font-weight: 700; padding-right: 230px;">Send Message</span>
+            <span>
+              <a v-b-toggle.collapse-1 style="text-decoration: none; color:#000; font-weight: bold;" id="collapse-link"><i class="fa fa-chevron-down"></i></a>
+            </span>
+          </p>
+          <div class="container-fluid">
+            <b-collapse visible id="collapse-1">
+              <div class="row pb-4">
+                <div class="col-sm-12">
+                  <textarea class="md-textarea form-control" style="height: 70px;" placeholder="Enter Message" v-model="notes"></textarea>
+                </div>
+
+              </div>
+            </b-collapse>
+          </div>
         </div>
-        
+
       </div>
     </div>
     <hr>
 
   </div>
-  <div v-else-if="cartItemsCount == 0">
-    <h2 class="container-fluid animated animatedFadeInUp fadeInUp cart_container my-5 text-center" style="color:#ccbd0f;">Your Cart is Empty</h2>
+  <div v-else-if="cartItemsCount == 0 && !orderDone">
+    <h2 class="animated animatedFadeInUp fadeInUp cart_container mt-5 text-center" style="color:#ccbd0f;">Your Cart is Empty</h2>
+    <span>
+      <router-link :to="{name : 'items'}" class="mr-5 hvr-icon-buzz-out" style="color:#000; float: right; margin-top: 20px;">Continue Shopping <i class=" pl-1 fa fa-chevron-circle-right hvr-icon"></i></router-link>
+    </span>
   </div>
   <div v-else-if="orderDone">
-    <h2 class="container-fluid animated animatedFadeInUp fadeInUp cart_container my-5 text-center" style="color:#ccbd0f;">Ordered Sucessfully</h2>
+    <h2 class="animated animatedFadeInUp fadeInUp cart_container mt-5 text-center" style="color:#ccbd0f;">Ordered Sucessfully</h2>
+    <span>
+      <router-link :to="{name : 'items'}" class="mr-5 hvr-icon-buzz-out" style="color:#000; float: right; margin-top: 20px;">Continue Shopping <i class=" pl-1 fa fa-chevron-circle-right hvr-icon"></i></router-link>
+    </span>
   </div>
 </template>
 
@@ -119,26 +143,7 @@
         totalAmount: 0,
         notes: '',
         orderDone: false,
-        selectedShippingOption: '',
-        shippingOptionsArray: [
-        {
-          text: 'One day',
-          rate: 20,
-        },
-        {
-          text: 'Two days',
-          rate: 15,
-        },
-        {
-          text: 'Three to five days',
-          rate: 10,
-        },
-        {
-          text: 'One week or more',
-          rate: 5,
-        },
-        ],
-        salesTax: 0.05,
+        
       }
     },
     computed:{
@@ -151,29 +156,7 @@
       },
       itemsTotal() {
         return this.cart.reduce((total, item) => total + (item.price * item.qty), 0);
-      },
-      subtotal() {
-        if (this.selectedShippingOption) {
-          return Number(this.itemsSubtotal) + Number(this.selectedShippingOption);
-        }
-        return '---';
-      },
-      salesTaxPercentage() {
-        return `${this.salesTax * 100}%`;
-      },
-      salesTaxApplied() {
-        if (this.selectedShippingOption) {
-          return (this.subtotal * this.salesTax).toFixed(2);
-        }
-        return '---';
-      },
-      total() {
-        if (this.selectedShippingOption) {
-          return Number(this.subtotal)
-                 + Number(this.salesTaxApplied);
-        }
-        return '---';
-      },
+      }
     },
     methods: {
       removeFromCart(itemId) {
@@ -204,26 +187,36 @@
       },
       order(){
         console.log("Hi");
-        let data = {shop_data: JSON.stringify(this.$store.state.cart),
-          notes: this.notes,total: this.totalAmount};
-          ItemService.createOrder(data)
-          .then(response => {
-            console.log(response)
-            localStorage.clear();
-            this.orderDone = true;
-            this.$store.dispatch('getData')
-          })
-          .catch(error => {
-            console.log('There was an error:',error.response)
-          })
+        if (this.$store.getters.isLoggedIn) {
+          let data = {shop_data: JSON.stringify(this.$store.state.cart),
+            notes: this.notes,total: this.totalAmount};
+            ItemService.createOrder(data)
+            .then(response => {
+              console.log(response)
+              localStorage.removeItem('cart');
+              this.orderDone = true;
+              this.$store.dispatch('getData')
+            })
+            .catch(error => {
+              console.log('There was an error:',error.response)
+            })
+          }else {
+            this.$store.state.prevRoute = 'cart'
+            this.$router.push('/login')
+          }
+
         }
 
       }
     }
-</script>
+  </script>
 
-<style type="text/css">
+  <style type="text/css">
   .font-bold{
     font-weight: bold;
+  }
+  #collapse-link:focus {
+    outline: none;
+    box-shadow: none;
   }
 </style>

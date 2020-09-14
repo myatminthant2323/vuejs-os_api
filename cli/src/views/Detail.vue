@@ -2,7 +2,7 @@
   <div class="container animated animatedFadeInUp fadeInUp">
     <!-- <h1 class="text-center mt-5 mb-4">Product Detail</h1> -->
     <div class="row">
-      <div class='col-md-6 mt-2 animated in-left'>
+      <div class='col-md-6 mt-4 animated in-left'>
         <p><img :src='item.item_photo' class='img-fluid'></p>
       </div>
       <div class='col-md-5 offset-1 pt-3 mt-4 animated in-right'>
@@ -15,10 +15,10 @@
           <span class="fa fa-star"></span>
         </p>
         <p>
-          <span class="mr-2"> <b-icon icon="tag-fill" variant="dark"></b-icon> {{item.brand.brand_name}}</span>
           <span> <b-icon icon="tag-fill" variant="dark"></b-icon> {{item.subcategory.subcategory_name}}</span>
+          <span class="mr-2 px-2"> <b-icon icon="tag-fill" variant="dark"></b-icon> {{item.brand.brand_name}}</span>
         </p>
-        <p><span class="" style="font-size: 20px; color: red">${{formatPrice(discount_price | currency)}} ({{item.item_discount}}% OFF) </span>  <span class="ml-2" style="text-decoration: line-through;">${{formatPrice(item.item_price)}}</span> <span class="badge badge-danger mt-2 mx-2 py-1" style="font-size: 12px;">Save  ${{formatPrice(item.item_price - currency(discount_price))}}</span></p>
+        <p><span class="" style="font-size: 17px; color: red; font-weight: 500;">${{formatPrice(discount_price | currency)}} ({{item.item_discount}}% OFF) </span>  <span class="ml-2" style="text-decoration: line-through; font-weight: 500;">${{formatPrice(item.item_price)}}</span> <span class="badge badge-danger mt-2 mx-2 py-1" style="font-size: 12px;">Save  ${{formatPrice(item.item_price - currency(discount_price))}}</span></p>
         <h4 style="font-size: 18px;">COLOR: TERRACOTTA</h4>
         <div class="foo blue"></div>
         <div class="foo purple"></div>
@@ -31,8 +31,15 @@
         <div style="clear:both;"></div>
         <h4 style="font-size: 18px;"  class="my-3">AVAILIBILITY: <span class="ml-1" style="font-weight: normal"> HURRY! ONLY 10 ITEMS LEFT</span></h4>
 
-        <h4 style="font-size: 18px;"  class="my-3">QUANTITY: <span class="ml-2"> <input type="number" name="qty" v-model="qty" class="form-control w-25 d-inline-block mt-1" min="1"></span></h4>
-        <div class="col-md-12 pl-0"><a class='btn btn-primary add_to_cart hvr-icon-buzz-out' style='background-color: #255d6c; padding: 8px 150px;' href='#' role='button' @click='addToCart()'>Add to Cart  <i class='fa fa-shopping-cart hvr-icon' aria-hidden='true'></i></a></div>
+        <h4 style="font-size: 18px;"  class="my-3">QUANTITY: 
+          <span class="ml-2">
+            <input type="number" name="qty" v-model="qty" class="form-control w-25 d-inline-block mt-1" min="1">
+          </span>
+        </h4>
+        <div class="col-md-12 pl-0">
+          <a class='btn btn-primary add_to_cart hvr-icon-buzz-out' style='background-color: #255d6c; padding: 8px 150px;' href='#' role='button' @click='addToCart()'>Add to Cart  <i class='fa fa-shopping-cart hvr-icon' aria-hidden='true'></i>
+          </a>
+        </div>
       </div>
 
     <hr>
@@ -67,7 +74,6 @@
         ItemService.getItem(id)
             .then(res => {
               this.item = res.data.item
-              // this.item.item_photo =  this.item.item_id + ".jpg";
             })
             .catch(err => {
               console.log('There was an error:',err.response)

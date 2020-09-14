@@ -2,9 +2,9 @@
 
   <div class="shadow col-md-12 mb-5 mt-2 hvr-grow hvr-underline-from-center">
     <router-link :to="{ name: 'item', params: { id: item.item_id }}" style="text-decoration: none; color:#000;">
-      <h3 class="card-title mt-2">{{item.item_name}} <span class="badge badge-danger float-right mt-2" style="font-size: 12px;">{{item.item_discount}}% OFF</span></h3>
+      <h3 class="card-title mt-2">{{item.item_name}} <span class="badge badge-danger float-right mt-2" style="font-size: 12px; font-weight: 500;">{{item.item_discount}}% OFF</span></h3>
       <!-- <p>{{item.item_codeno}}</p> -->
-      <p class="card-text"><span style="color: orange; letter-spacing: 0.4px;">${{ this.formatPrice(discount_price) }}</span> <span class="ml-2" style="text-decoration: line-through;">${{ formatPrice(item.item_price) }}</span></p>
+      <p class="card-text"><span style="color: orange; letter-spacing: 0.4px; font-weight: 500;">${{ this.formatPrice(discount_price) }}</span> <span class="ml-2" style="text-decoration: line-through; font-weight: 500;">${{ formatPrice(item.item_price) }}</span></p>
 
       <p><span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
